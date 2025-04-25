@@ -101,4 +101,6 @@ Forecast: {period['detailedForecast']}
 
 if __name__ == "__main__":
     # Initialize and run the server
+    print("Starting Weather MCP server on stdio...")
     mcp.run(transport='stdio')
+    print("Server stopped.")
