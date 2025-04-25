@@ -73,18 +73,21 @@ MCP server using python-sdk has majorly 4 components:
 Resources are how you expose data to LLMs. They're like GET endpoints in a REST API - they provide data but shouldn't perform significant computation or have side effects 
 
 *Example:* 
+
 ![image](./images/mcp-resource.png "MCP Resource")
 
 **[Tools](https://modelcontextprotocol.io/docs/concepts/tools):**
 Tools let LLMs take actions through your server. Unlike resources, tools are expected to perform computation and have side effects. 
 
 *Example:*
+
 ![image](./images/mcp-tool.png "MCP Tool")
 
 **[Prompts](https://modelcontextprotocol.io/docs/concepts/prompts):**
 Prompts are reusable templates that help LLMs interact with your server effectively. 
 
 *Example:*
+
 ![image](./images/mcp-prompt.png "MCP Prompt")
 
 **[Transports](https://modelcontextprotocol.io/docs/concepts/transports):**
