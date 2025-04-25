@@ -29,7 +29,7 @@
 ### MCP brief definition: 
 - MCP acts as a medium between LLM and the tool providers. 
 - The MCP protocol will be a single medium where all the tool providers need to follow this protocol, so that anyone who is developing an AI assistant should be using the MCP protocol to connect to the specific tools.
-![image](images\MCP-with-tools.jpg "MCP with tools")
+![image](./images/MCP-with-tools.jpg "MCP with tools")
 
 
 ### Components in MCP: 
@@ -43,7 +43,7 @@ The host basically creates the client. The client will be communicating with the
 
 The tools or services are completely managed by tool providers. Any changes made to the tools are handled by service providers, so there will be no changes required to be made for the client-server integration happening via MCP protocol. 
   
-![image](images\MCP-components.jpg "MCP Components")
+![image](./images/MCP-components.jpg "MCP Components")
 
 
 ### Communication between the MCP components: 
@@ -59,13 +59,13 @@ This is the step-by-step process that will be happening between the components.
 7. The response is sent back to MCP Host.  
 8. The MCP Host will call the LLM with the context and then LLM sends the final output. 
 
-![image](images\MCP-components-communication.jpg "MCP Components Communication")
+![image](./images/MCP-components-communication.jpg "MCP Components Communication")
 
 
 ### MCP Server implementation:
 **Python SDK**: `pip install mcp[cli]`
 
-![image](images\mcp-server.png "MCP Server")
+![image](./images/mcp-server.png "MCP Server")
 
 MCP server using python-sdk has majorly 4 components: 
 
@@ -73,19 +73,19 @@ MCP server using python-sdk has majorly 4 components:
 Resources are how you expose data to LLMs. They're like GET endpoints in a REST API - they provide data but shouldn't perform significant computation or have side effects 
 
 *Example:* 
-![image](images\mcp-resource.png "MCP Resource")
+![image](./images/mcp-resource.png "MCP Resource")
 
 **[Tools](https://modelcontextprotocol.io/docs/concepts/tools):**
 Tools let LLMs take actions through your server. Unlike resources, tools are expected to perform computation and have side effects. 
 
 *Example:*
-![image](images\mcp-tool.png "MCP Tool")
+![image](./images/mcp-tool.png "MCP Tool")
 
 **[Prompts](https://modelcontextprotocol.io/docs/concepts/prompts):**
 Prompts are reusable templates that help LLMs interact with your server effectively. 
 
 *Example:*
-![image](images\mcp-prompt.png "MCP Prompt")
+![image](./images/mcp-prompt.png "MCP Prompt")
 
 **[Transports](https://modelcontextprotocol.io/docs/concepts/transports):**
 Transports in the Model Context Protocol (MCP) provide the foundation for communication between clients and servers. A transport handles the underlying mechanics of how messages are sent and received. 
