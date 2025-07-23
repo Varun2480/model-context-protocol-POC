@@ -1,6 +1,22 @@
+import os
 from typing import Any
 import httpx
+import logging
 from mcp.server.fastmcp import FastMCP
+
+
+log_dir = os.path.dirname(os.path.abspath(__file__))
+log_file_path = os.path.join(log_dir, 'weather_server.log')
+
+# Configure logging to write to a file
+logging.basicConfig(
+    level=logging.INFO, # Log INFO level and above (INFO, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+    filename=log_file_path,
+    filemode='w' # 'w' overwrites the log file each time, 'a' appends
+)
+
+logging.info("--- Weather Server Starting ---")
 
 # Initialize FastMCP server
 mcp = FastMCP("weather")
@@ -24,13 +40,17 @@ async def make_nws_request(url: str) -> dict[str, Any] | None:
         "User-Agent": USER_AGENT,
         "Accept": "application/geo+json"
     }
+    logging.info(f"Attempting NWS request to: {url}")
 
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(url, headers=headers, timeout=30.0)
+            response = await client.get(url, headers=headers, timeout=30.0, follow_redirects=True)
+            logging.info(f"NWS Response Status Code: {response.status_code}")
             response.raise_for_status()
             return response.json()
-        except Exception:
+        except Exception as ex:
+            logging.error(f"NWS returned excception: {ex}")
+            # logging.error(f"NWS Response Status Code: {response.status_code}")
             return None
         
 def format_alert(feature: dict[str, Any]) -> str:
@@ -99,8 +119,18 @@ Forecast: {period['detailedForecast']}
 
     return "\n---\n".join(forecasts)
 
-if __name__ == "__main__":
-    # Initialize and run the server
-    print("Starting Weather MCP server on stdio...")
-    mcp.run(transport='stdio')
-    print("Server stopped.")
+
+@mcp.resource("users://{user_id}/profile")
+def get_user_profile(user_id: str) -> str:
+    """Dynamic user data"""
+    return f"Profile data for user {user_id}"
+
+@mcp.prompt()
+def review_code(code: str) -> str:
+    return f"Please review this code:\n\n{code}"
+
+# if __name__ == "__main__":
+#     # Initialize and run the server
+#     print("Starting Weather MCP server on stdio...")
+#     mcp.run(transport='stdio')
+#     print("Server stopped.")
